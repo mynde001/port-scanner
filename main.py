@@ -23,7 +23,7 @@ import time
 while 1:
     ADDRESS = str(input("Enter IP or Domain address: "))
     num_of_ports = int(input("Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151): "))
-    timeout = int(input("Seconds before connection times out (default is 10): ") or "21")
+    timeout = int(input("Seconds before connection times out (default is 5): ") or "5")
 
     # Thread range loop start
     range_start = 0
