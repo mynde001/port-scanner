@@ -19,51 +19,54 @@ import socket
 import threading
 import time
 
-IP = str(input("Enter IP or Domain address: "))
-num_of_ports = int(input("Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151): "))
-timeout = int(input("Seconds before connection times out (default is 21): ") or "21")
+# Initializes the app again once finished
+while 1:
+    ADDRESS = str(input("Enter IP or Domain address: "))
+    num_of_ports = int(input("Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151): "))
+    timeout = int(input("Seconds before connection times out (default is 21): ") or "21")
 
-# Thread range loop start
-range_start = 0
+    # Thread range loop start
+    range_start = 0
 
-# Amount of ports (to and from) based on num_of_ports input (1/2)
-if num_of_ports == 1:
-    num_of_ports = 1024
-elif num_of_ports == 2:
-    range_start = 1024
-    num_of_ports = 49152
+    # Amount of ports (to and from) based on num_of_ports input (1/2)
+    if num_of_ports == 1:
+        num_of_ports = 1024
+    elif num_of_ports == 2:
+        range_start = 1024
+        num_of_ports = 49152
 
-current_port = 0
-open_ports = []
-threads = []
+    current_port = 0
+    open_ports = []
+    threads = []
 
-print(f"> Scanning {IP}...")
+    print(f"> Scanning {ADDRESS}...")
 
-start = time.time()
+    start = time.time()
 
-def port_scanner(current_port):
-    with socket.socket() as s:
-        s.settimeout(timeout)
+    def port_scanner(current_port):
+        with socket.socket() as s:
+            s.settimeout(timeout)
 
-        try:
-            s.connect((IP, current_port))
-            open_ports.append(current_port)
-        except:
-            pass
+            try:
+                s.connect((ADDRESS, current_port))
+                open_ports.append(current_port)
+            except:
+                pass
 
-for _ in range(range_start, num_of_ports):
-    thread = threading.Thread(target=port_scanner, args=(current_port,))
-    thread.start()
-    threads.append(thread)
-    current_port += 1
+    for _ in range(range_start, num_of_ports):
+        thread = threading.Thread(target=port_scanner, args=(current_port,))
+        thread.start()
+        threads.append(thread)
+        current_port += 1
 
-# Waits for all threads to finish before outputting the result
-for thread in threads:
-    thread.join()
+    # Waits for all threads to finish before outputting the result
+    for thread in threads:
+        thread.join()
 
-finish = time.time()
+    finish = time.time()
 
-for port in open_ports:
-    print(f"> Port {port} is open")
+    for port in open_ports:
+        print(f"> Port {port} is open")
 
-print(f"The process took {int(finish - start)} seconds to complete")
+    print(f'''The process took {int(finish - start)} seconds to complete
+    ''')
