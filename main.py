@@ -23,7 +23,7 @@ import time
 while 1:
     ADDRESS = str(input("Enter IP or Domain address: "))
     num_of_ports = int(input("Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151): "))
-    timeout = int(input("Seconds before connection times out (default is 21): ") or "21")
+    timeout = int(input("Seconds before connection times out (default is 10): ") or "21")
 
     # Thread range loop start
     range_start = 0
@@ -35,11 +35,32 @@ while 1:
         range_start = 1024
         num_of_ports = 49152
 
+    finish = None
     current_port = 0
     open_ports = []
     threads = []
 
-    print(f"> Scanning {ADDRESS}...")
+    scanning_text = f"> Scanning {ADDRESS}"
+
+    # Adds dots to the end of scanning_text as the address is being scanned for ports
+    def text_dots():
+        counter = 0
+        # global allows for modifying a global variable from local context
+        global scanning_text
+
+        while finish == None:
+            if counter != 4:
+                counter += 1
+                print("\r" + scanning_text, end="")
+                scanning_text += "."
+                time.sleep(0.3)
+            elif counter >= 4:
+                scanning_text = scanning_text[:-4]
+                counter = 0
+
+
+    text_dot_thread = threading.Thread(target=text_dots)
+    text_dot_thread.start()
 
     start = time.time()
 
@@ -64,6 +85,9 @@ while 1:
         thread.join()
 
     finish = time.time()
+
+    # Whitespace
+    print(" ")
 
     for port in open_ports:
         print(f"> Port {port} is open")
