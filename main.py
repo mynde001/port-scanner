@@ -49,6 +49,9 @@ To choose either of the 3, enter 1, 2 or 3 respectively or enter a custom amount
 
     scanning_text = f"> Scanning {ADDRESS}"
 
+    # Whitespace
+    print(" ")
+
     # Adds dots to the end of scanning_text as the address is being scanned for ports
     def text_dots():
         counter = 0
@@ -108,5 +111,7 @@ To choose either of the 3, enter 1, 2 or 3 respectively or enter a custom amount
     if bool(open_ports) == False:
         print("> No open ports were found")
 
-    print(f'''The process took {int(finish - start)} seconds to complete
+    result = int(finish - start)
+
+    print(f'''The process took {result} second{"s" if result > 1 else ""} to complete
     ''')
