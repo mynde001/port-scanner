@@ -11,8 +11,6 @@ Well-known ports are port numbers that have been reserved for common application
 
 RP - User or registered ports
 A registered port is a network port designated for use with a certain protocol or application
-
-To choose either of the 3, enter 1, 2 or 3 respectively or enter a custom amount
 ''')
 
 import socket
@@ -25,7 +23,8 @@ q = Queue()
 # Initializes the app again once finished
 while 1:
     ADDRESS = str(input("Enter IP or Domain address: "))
-    num_of_ports = int(input("Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151, 3. 0 - 49151): "))
+    num_of_ports = int(input('''Enter the amount of ports (defaults are: 1. WKP: 0 - 1023, 2. RP: 1024 - 49151, 3. 0 - 49151)
+To choose either of the 3, enter 1, 2 or 3 respectively or enter a custom amount: '''))
     timeout = int(input("Seconds before connection times out (default is 3): ") or "3")
 
     # Range loop starting integer
@@ -105,6 +104,9 @@ while 1:
 
     for port in open_ports:
         print(f"> Port {port} is open")
+
+    if bool(open_ports) == False:
+        print("> No open ports were found")
 
     print(f'''The process took {int(finish - start)} seconds to complete
     ''')
