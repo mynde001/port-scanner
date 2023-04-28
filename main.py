@@ -12,7 +12,7 @@ Well-known ports are port numbers that have been reserved for common application
 RP - User or registered ports
 A registered port is a network port designated for use with a certain protocol or application
 
-To choose either of the 2, enter 1 or 2 respectively or enter a custom amount
+To choose either of the 3, enter 1, 2 or 3 respectively or enter a custom amount
 ''')
 
 import socket
@@ -93,6 +93,8 @@ while 1:
             threads.append(thread)
 
     threader(num_of_ports_start, num_of_ports)
+
+    print(threads)
 
     # Waits for all threads to finish before outputting the result
     for thread in threads:
