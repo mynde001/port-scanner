@@ -94,8 +94,6 @@ while 1:
 
     threader(num_of_ports_start, num_of_ports)
 
-    print(threads)
-
     # Waits for all threads to finish before outputting the result
     for thread in threads:
         thread.join()
